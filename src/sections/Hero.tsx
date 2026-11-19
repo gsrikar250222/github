@@ -22,8 +22,8 @@ function RippleFallback() {
       className="absolute inset-0"
       style={{
         background:
-          'radial-gradient(circle at 50% 38%, #ffffff 0 7%, transparent 7.2%),' +
-          'repeating-radial-gradient(ellipse 120% 80% at 50% 38%, #f4f5f7 0 5%, #c9cbd1 9%, #98a0aa 12%, #c9cbd1 15%, #f4f5f7 19%)',
+          'radial-gradient(circle at 50% 38%, #fffdf8 0 7%, transparent 7.2%),' +
+          'repeating-radial-gradient(ellipse 120% 80% at 50% 38%, #f6f1e8 0 5%, #d9cfbd 9%, #a69a84 12%, #d9cfbd 15%, #f6f1e8 19%)',
       }}
     />
   )
@@ -97,9 +97,9 @@ export function Hero({ ready }: { ready: boolean }) {
         <h1 id="hero-title" className="text-center">
           <motion.span
             className="block text-[clamp(2.7rem,10.6vw,10.5rem)] leading-none text-black"
-            style={{ fontFamily: 'var(--font-display)', fontWeight: 300 }}
+            style={{ fontFamily: 'var(--font-display)', fontWeight: 400 }}
             initial={{ letterSpacing: '1.1em', paddingLeft: '1.1em', opacity: 0 }}
-            animate={ready ? { letterSpacing: '0.36em', paddingLeft: '0.36em', opacity: 1 } : {}}
+            animate={ready ? { letterSpacing: '0.12em', paddingLeft: '0.12em', opacity: 1 } : {}}
             transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
           >
             <SplitText text={profile.brand} play={ready} delay={0.2} stagger={0.09} />

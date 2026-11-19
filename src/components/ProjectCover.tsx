@@ -4,9 +4,9 @@ import type { Project } from '../data/projects'
  * Generated silver-line covers. They are abstract motifs only — replace by setting
  * `media.image` / `media.video` on a project in data/projects.ts.
  */
-const S = '#c7c9ce'
-const M = '#92969e'
-const W = '#ffffff'
+const S = '#d9cfbd'
+const M = '#7a6f5c'
+const W = '#fffdf8'
 
 function Motif({ kind }: { kind: Project['motif'] }) {
   switch (kind) {
@@ -77,7 +77,7 @@ function Motif({ kind }: { kind: Project['motif'] }) {
     case 'terrain':
       return (
         <g stroke={S} fill="none">
-          <path d="M20 220 90 140 150 190 220 90 290 170 380 110 380 280 20 280Z" fill="rgba(199,201,206,.12)" />
+          <path d="M20 220 90 140 150 190 220 90 290 170 380 110 380 280 20 280Z" fill="rgba(217,207,189,.12)" />
           <path d="M20 245 100 175 160 220 230 135 300 200 380 150" opacity=".6" />
           <path d="M20 268 110 215 170 250 240 185 310 238 380 200" opacity=".35" />
           <rect x="190" y="70" width="70" height="60" strokeDasharray="4 4" stroke={W} />
@@ -144,12 +144,12 @@ export function ProjectCover({ project, index }: { project: Project; index: numb
     <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" className="h-full w-full" role="img" aria-label={`${project.name} generated cover artwork`}>
       <defs>
         <radialGradient id={`bg-${project.id}`} cx=".3" cy=".2" r="1">
-          <stop offset="0" stopColor="#2a2c31" />
-          <stop offset="1" stopColor="#080808" />
+          <stop offset="0" stopColor="#2b2620" />
+          <stop offset="1" stopColor="#14110f" />
         </radialGradient>
       </defs>
       <rect width="400" height="300" fill={`url(#bg-${project.id})`} />
-      <g stroke="#ffffff" strokeOpacity=".05">
+      <g stroke="#fffdf8" strokeOpacity=".05">
         {Array.from({ length: 9 }, (_, i) => (
           <line key={i} x1={i * 50} x2={i * 50} y1="0" y2="300" />
         ))}

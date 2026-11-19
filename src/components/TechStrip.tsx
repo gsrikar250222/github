@@ -31,16 +31,14 @@ export function TechStrip() {
         boost = gsap.utils.clamp(-30, 30, self.getVelocity() / 120)
       },
     })
-    const skewTo = gsap.quickTo(el, 'skewX', { duration: 0.5, ease: 'power3' })
     const tick = (_t: number, dt: number) => {
       if (!visible) return
       boost *= 0.92
-      const step = (dt / 1000) * (2.2 + Math.abs(boost) * 0.5)
+      const step = (dt / 1000) * (1.5 + Math.abs(boost) * 0.25)
       const dir = boost < 0 ? -1 : 1
       pos = (pos + step * dir + 50) % 50 // seamless period = one copy = 50%
       gsap.set(a.current, { xPercent: -pos })
       gsap.set(b.current, { xPercent: -50 + pos })
-      skewTo(gsap.utils.clamp(-6, 6, -boost * 0.25))
     }
     gsap.ticker.add(tick)
     return () => {
@@ -59,7 +57,7 @@ export function TechStrip() {
               <span key={n + k} className="flex items-center">
                 <span
                   className="display px-6 text-[clamp(2.2rem,6vw,5.5rem)] font-light leading-[1.2] tracking-tight md:px-10"
-                  style={outline ? { color: 'transparent', WebkitTextStroke: '1px #92969e' } : { color: '#171717' }}
+                  style={outline ? { color: 'transparent', WebkitTextStroke: '1px #b9ad96' } : { color: '#2a2520' }}
                 >
                   {n}
                 </span>

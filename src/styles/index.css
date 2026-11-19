@@ -1,17 +1,18 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-white: #ffffff;
-  --color-off: #f7f7f7;
-  --color-silver: #c7c9ce;
-  --color-metal: #92969e;
-  --color-charcoal: #171717;
-  --color-black: #080808;
-  --color-line: #e8e8e8;
+  --color-white: #fffdf8;
+  --color-off: #f2ede3;
+  --color-silver: #d9cfbd;
+  --color-metal: #7a6f5c;
+  --color-charcoal: #2a2520;
+  --color-black: #14110f;
+  --color-line: #e2d9c8;
+  --color-accent: #ff5a1f;
 
-  --font-sans: 'Geist Variable', 'Inter', system-ui, sans-serif;
-  --font-display: 'Manrope Variable', 'Geist Variable', system-ui, sans-serif;
-  --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+  --font-sans: 'DM Sans Variable', system-ui, sans-serif;
+  --font-display: 'Instrument Serif', 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
 }
 
 :root {
@@ -44,8 +45,8 @@ body {
 }
 
 ::selection {
-  background: var(--color-black);
-  color: var(--color-white);
+  background: var(--color-accent);
+  color: var(--color-black);
 }
 
 a,
@@ -54,16 +55,16 @@ button {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-black);
+  outline: 2px solid var(--color-accent);
   outline-offset: 3px;
   border-radius: 2px;
 }
 
 .display {
   font-family: var(--font-display);
-  letter-spacing: -0.045em;
-  line-height: 0.92;
-  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 0.98;
+  font-weight: 400;
 }
 .eyebrow {
   font-family: var(--font-mono);
@@ -73,7 +74,7 @@ button {
   color: var(--color-metal);
 }
 .chrome-text {
-  background: linear-gradient(110deg, #080808 0%, #4a4d54 30%, #c7c9ce 50%, #4a4d54 70%, #080808 100%);
+  background: linear-gradient(110deg, #14110f 0%, #6b5f4d 30%, #d9cfbd 50%, #6b5f4d 70%, #14110f 100%);
   background-size: 220% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -157,7 +158,7 @@ button {
   gap: 0.75rem;
   border-radius: 9999px;
   padding: 1px;
-  background: linear-gradient(100deg, #171717 0%, #c7c9ce 22%, #ffffff 36%, #92969e 52%, #171717 70%, #c7c9ce 100%);
+  background: linear-gradient(100deg, #14110f 0%, #ff5a1f 22%, #ffd2bd 36%, #14110f 52%, #7a6f5c 70%, #14110f 100%);
   background-size: 260% 100%;
   animation: book-sheen 4.5s linear infinite;
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.55);
@@ -168,8 +169,8 @@ button {
   align-items: center;
   gap: 0.75rem;
   border-radius: 9999px;
-  background: #080808;
-  color: #fff;
+  background: #14110f;
+  color: #fffdf8;
   padding: 0.95rem 1.7rem;
   font-family: var(--font-mono, 'Geist Mono', monospace);
   font-size: 0.72rem;
@@ -177,7 +178,7 @@ button {
   text-transform: uppercase;
   white-space: nowrap;
 }
-.book-btn.on-dark > .book-in { background: #fff; color: #080808; }
+.book-btn.on-dark > .book-in { background: #fffdf8; color: #14110f; }
 .book-btn.sm > .book-in { padding: 0.7rem 1.1rem; font-size: 0.7rem; letter-spacing: 0.1em; }
 .book-btn:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.6); }
 .book-dot { position: relative; width: 8px; height: 8px; border-radius: 9999px; background: #4ade80; flex: none; }

@@ -49,9 +49,9 @@ const frag = /* glsl */ `
 
     float lum = 0.62 + 0.30 * h;
 
-    vec3 hi  = vec3(0.972, 0.974, 0.980);
-    vec3 mid = vec3(0.792, 0.800, 0.816);
-    vec3 lo  = vec3(0.600, 0.614, 0.640);
+    vec3 hi  = vec3(0.985, 0.968, 0.930);
+    vec3 mid = vec3(0.855, 0.812, 0.738);
+    vec3 lo  = vec3(0.690, 0.640, 0.558);
     vec3 col = mix(lo, mid, smoothstep(0.30, 0.62, lum));
     col = mix(col, hi, smoothstep(0.62, 0.96, lum));
 
@@ -62,7 +62,7 @@ const frag = /* glsl */ `
     col *= 1.0 - 0.30 * exp(-dot(q, q) * 12.0);
 
     // keep the very top calm so the navigation stays crisp
-    col = mix(col, vec3(0.969), smoothstep(0.82, 1.0, vUv.y) * 0.65);
+    col = mix(col, vec3(0.949, 0.929, 0.890), smoothstep(0.82, 1.0, vUv.y) * 0.65);
 
     gl_FragColor = vec4(col, 1.0);
   }
@@ -103,17 +103,9 @@ function Scene({ reduced, mobile }: { reduced: boolean; mobile: boolean }) {
       ptr.current.ty = u.y
       ptr.current.amt = Math.min(1, ptr.current.amt + 0.12)
     }
-    const down = (e: PointerEvent) => {
-      const u = toUv(e)
-      if (!u.inside) return
-      uniforms.uClick.value.set(u.x, u.y)
-      clickAt.current = performance.now() / 1000
-    }
     window.addEventListener('pointermove', move, { passive: true })
-    window.addEventListener('pointerdown', down, { passive: true })
     return () => {
       window.removeEventListener('pointermove', move)
-      window.removeEventListener('pointerdown', down)
     }
   }, [gl, reduced, uniforms])
 
@@ -150,7 +142,7 @@ function Scene({ reduced, mobile }: { reduced: boolean; mobile: boolean }) {
           <mesh>
             <sphereGeometry args={[radius, mobile ? 48 : 96, mobile ? 48 : 96]} />
             <MeshDistortMaterial
-              color="#eceef1"
+              color="#efe9dd"
               metalness={1}
               roughness={0.035}
               distort={reduced ? 0 : 0.14}
@@ -168,11 +160,12 @@ function Scene({ reduced, mobile }: { reduced: boolean; mobile: boolean }) {
 function Studio() {
   return (
     <Environment resolution={256} frames={1}>
-      <color attach="background" args={['#cfd1d6']} />
+      <color attach="background" args={['#d8cfbf']} />
       <Lightformer form="rect" intensity={4} position={[0, 6, -3]} scale={[14, 3, 1]} />
       <Lightformer form="rect" intensity={2.2} position={[-6, 1, 3]} rotation-y={Math.PI / 2} scale={[8, 5, 1]} />
       <Lightformer form="rect" intensity={2.2} position={[6, 0, 2]} rotation-y={-Math.PI / 2} scale={[8, 5, 1]} />
-      <Lightformer form="ring" color="#ffffff" intensity={3} position={[0, 0, 6]} scale={7} />
+      <Lightformer form="rect" color="#ff6a2b" intensity={1.3} position={[4.5, -1.5, 3]} rotation-y={-0.9} scale={[2.2, 6, 1]} />
+      <Lightformer form="ring" color="#fffdf8" intensity={3} position={[0, 0, 6]} scale={7} />
       <Lightformer form="rect" intensity={0.9} color="#000" position={[0, -4, 0]} rotation-x={Math.PI / 2} scale={[14, 14, 1]} />
       <Lightformer form="rect" intensity={1} color="#000" position={[0, 1.2, 4]} scale={[3.4, 1.6, 1]} />
     </Environment>

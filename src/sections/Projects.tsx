@@ -34,15 +34,13 @@ function ProjectRow({ p, i }: { p: Project; i: number }) {
   // 3D tilt
   const mx = useMotionValue(0)
   const my = useMotionValue(0)
-  const rx = useSpring(useTransform(my, [-0.5, 0.5], [7, -7]), { stiffness: 140, damping: 16 })
-  const ry = useSpring(useTransform(mx, [-0.5, 0.5], [-9, 9]), { stiffness: 140, damping: 16 })
+  const rx = useSpring(useTransform(my, [-0.5, 0.5], [2.5, -2.5]), { stiffness: 140, damping: 16 })
+  const ry = useSpring(useTransform(mx, [-0.5, 0.5], [-3, 3]), { stiffness: 140, damping: 16 })
   const glare = useTransform(mx, [-0.5, 0.5], ['20%', '80%'])
 
   const onMove = (e: React.PointerEvent) => {
     if (!fine || reduced || !frame.current) return
     const r = frame.current.getBoundingClientRect()
-    frame.current.style.setProperty('--sx', `${e.clientX - r.left}px`)
-    frame.current.style.setProperty('--sy', `${e.clientY - r.top}px`)
     mx.set((e.clientX - r.left) / r.width - 0.5)
     my.set((e.clientY - r.top) / r.height - 0.5)
   }

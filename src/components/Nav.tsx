@@ -61,14 +61,14 @@ export function Nav({ ready }: { ready: boolean }) {
           aria-label="Primary"
           className={cn(
             'mx-auto flex h-14 max-w-[1500px] items-center justify-between rounded-xl border px-4 backdrop-blur-xl transition-colors duration-500 md:h-[68px] md:px-6',
-            dark ? 'border-white/10 bg-black/55 text-white' : 'border-white/70 bg-white/45 text-black shadow-[0_8px_30px_-18px_rgba(8,8,8,0.25)]',
+            dark ? 'border-white/10 bg-black/55 text-white' : 'border-white/70 bg-white/45 text-black shadow-[0_8px_30px_-18px_rgba(20,17,15,0.25)]',
           )}
         >
           <a href="#hero" onClick={go('hero')} className="flex items-center gap-2.5" aria-label="SRIKAR. — back to top">
             <span
               aria-hidden
               className="h-5 w-5 rounded-full"
-              style={{ background: 'radial-gradient(circle at 32% 28%, #fff 0, #d9dbdf 35%, #6f737b 80%, #171717 100%)' }}
+              style={{ background: 'radial-gradient(circle at 32% 28%, #fffdf8 0, #e3d9c6 35%, #7a6f5c 80%, #2a2520 100%)' }}
             />
             <span className="display text-lg tracking-[-0.04em]">{profile.brand}</span>
           </a>

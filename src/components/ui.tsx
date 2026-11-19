@@ -43,7 +43,7 @@ export function Button({
   return (
     <Magnetic>
       <button className={cn(base, variants[variant], 'disabled:opacity-50', className)} {...rest}>
-        <span>{children}</span>
+        <span className="inline-flex items-center gap-2 whitespace-nowrap">{children}</span>
         {arrow && <ArrowUpRight size={15} className="transition-transform duration-500 group-hover:rotate-45" />}
       </button>
     </Magnetic>

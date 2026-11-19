@@ -36,7 +36,7 @@ export function Cursor() {
       const label = t?.getAttribute('data-cursor-label')
       gsap.to(r, {
         scale: t ? (label ? 3.2 : 1.9) : 1,
-        backgroundColor: t ? 'rgba(8,8,8,0.06)' : 'rgba(8,8,8,0)',
+        backgroundColor: t ? 'rgba(20,17,15,0.06)' : 'rgba(20,17,15,0)',
         duration: 0.35,
         ease: 'power3.out',
       })
@@ -45,14 +45,6 @@ export function Cursor() {
     }
     const leave = () => gsap.to([d, r], { opacity: 0, duration: 0.2 })
     const enter = () => shown && gsap.to([d, r], { opacity: 1, duration: 0.2 })
-    const pulse = (e: PointerEvent) => {
-      const el = document.createElement('span')
-      el.setAttribute('aria-hidden', 'true')
-      el.style.cssText = `position:fixed;left:${e.clientX}px;top:${e.clientY}px;width:14px;height:14px;margin:-7px 0 0 -7px;border:1px solid rgba(8,8,8,.55);border-radius:9999px;pointer-events:none;z-index:9998`
-      document.body.appendChild(el)
-      gsap.to(el, { scale: 7, opacity: 0, duration: 0.8, ease: 'power3.out', onComplete: () => el.remove() })
-    }
-    window.addEventListener('pointerdown', pulse)
     window.addEventListener('pointermove', move)
     window.addEventListener('pointerover', over)
     document.documentElement.addEventListener('pointerleave', leave)
@@ -60,7 +52,6 @@ export function Cursor() {
     return () => {
       document.documentElement.classList.remove('has-cursor')
       window.removeEventListener('pointermove', move)
-      window.removeEventListener('pointerdown', pulse)
       window.removeEventListener('pointerover', over)
       document.documentElement.removeEventListener('pointerleave', leave)
       document.documentElement.removeEventListener('pointerenter', enter)

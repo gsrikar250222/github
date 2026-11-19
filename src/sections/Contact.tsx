@@ -136,7 +136,7 @@ function Marquee() {
       <motion.p style={{ x }} className="display whitespace-nowrap text-[clamp(4rem,15vw,14rem)] leading-none">
         <span className="chrome-text">LET’S CREATE WHAT’S NEXT.</span>
         <span className="mx-[0.3em] text-silver">—</span>
-        <span className="text-transparent [-webkit-text-stroke:1.5px_#92969e]">LET’S CREATE WHAT’S NEXT.</span>
+        <span className="text-transparent [-webkit-text-stroke:1.5px_#7a6f5c]">LET’S CREATE WHAT’S NEXT.</span>
       </motion.p>
     </div>
   )

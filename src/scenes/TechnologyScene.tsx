@@ -139,7 +139,7 @@ function Lines({
   })
   return (
     <lineSegments geometry={geom} frustumCulled={false}>
-      <lineBasicMaterial color="#92969e" transparent opacity={opacity} />
+      <lineBasicMaterial color="#7a6f5c" transparent opacity={opacity} />
     </lineSegments>
   )
 }
@@ -149,7 +149,7 @@ function Orb({ r, dark = false }: { r: number; dark?: boolean }) {
     <mesh>
       <sphereGeometry args={[r, 28, 28]} />
       <meshStandardMaterial
-        color={dark ? '#171717' : '#d9dadd'}
+        color={dark ? '#2a2520' : '#e3d9c6'}
         metalness={dark ? 0.9 : 0.55}
         roughness={dark ? 0.2 : 0.28}
         envMapIntensity={1.2}
@@ -345,7 +345,7 @@ export default function TechnologyScene({ active, cluster, category, onSelectClu
       >
         <ambientLight intensity={0.6} />
         <Environment resolution={128} frames={1}>
-          <color attach="background" args={['#9a9da4']} />
+          <color attach="background" args={['#a69a84']} />
           <Lightformer form="rect" intensity={3} position={[0, 5, -3]} scale={[12, 3, 1]} />
           <Lightformer form="rect" intensity={2} position={[-5, 0, 3]} rotation-y={Math.PI / 2} scale={[7, 4, 1]} />
           <Lightformer form="rect" intensity={2} position={[5, 0, 3]} rotation-y={-Math.PI / 2} scale={[7, 4, 1]} />

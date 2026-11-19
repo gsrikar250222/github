@@ -18,7 +18,7 @@ export function RoleCycle({ roles }: { roles: string[] }) {
           <span
             className="inline-block transition-[color,transform,letter-spacing] duration-700 ease-out"
             style={{
-              color: !reduced && k === i ? '#080808' : undefined,
+              color: !reduced && k === i ? '#d9420b' : undefined,
               transform: !reduced && k === i ? 'translateY(-2px)' : undefined,
               letterSpacing: !reduced && k === i ? '0.26em' : undefined,
             }}

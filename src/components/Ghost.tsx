@@ -11,7 +11,7 @@ export function Ghost({ children }: { children: ReactNode }) {
   return (
     <div ref={ref} aria-hidden className="pointer-events-none absolute -top-10 right-0 z-0 select-none md:-top-24">
       <motion.span
-        style={{ y, WebkitTextStroke: '1px #92969e' }}
+        style={{ y, WebkitTextStroke: '1px #c4b8a0' }}
         className="display block text-[clamp(7rem,24vw,24rem)] leading-none text-transparent opacity-60"
       >
         {children}
