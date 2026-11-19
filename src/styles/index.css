@@ -1,0 +1,187 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-white: #ffffff;
+  --color-off: #f7f7f7;
+  --color-silver: #c7c9ce;
+  --color-metal: #92969e;
+  --color-charcoal: #171717;
+  --color-black: #080808;
+  --color-line: #e8e8e8;
+
+  --font-sans: 'Geist Variable', 'Inter', system-ui, sans-serif;
+  --font-display: 'Manrope Variable', 'Geist Variable', system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+}
+
+:root {
+  --pad: clamp(1.25rem, 4vw, 4rem);
+  color-scheme: light;
+}
+
+html {
+  background: var(--color-off);
+  -webkit-text-size-adjust: 100%;
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-charcoal);
+  background: var(--color-off);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-black);
+  color: var(--color-white);
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-black);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.display {
+  font-family: var(--font-display);
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+  font-weight: 700;
+}
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-metal);
+}
+.chrome-text {
+  background: linear-gradient(110deg, #080808 0%, #4a4d54 30%, #c7c9ce 50%, #4a4d54 70%, #080808 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: sheen 9s ease-in-out infinite alternate;
+}
+@keyframes sheen {
+  to {
+    background-position: 100% 0;
+  }
+}
+
+.hairline {
+  border-color: var(--color-line);
+}
+
+.grid-lines {
+  background-image: linear-gradient(to right, var(--color-line) 1px, transparent 1px);
+  background-size: calc(100% / 6) 100%;
+}
+
+.noscroll-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: -4rem;
+  z-index: 200;
+  background: var(--color-black);
+  color: white;
+  padding: 0.6rem 1rem;
+  font-size: 0.8rem;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+.sr-only-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .has-cursor,
+  .has-cursor a,
+  .has-cursor button {
+    cursor: none;
+  }
+  .has-cursor input,
+  .has-cursor textarea {
+    cursor: text;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .chrome-text {
+    animation: none;
+  }
+}
+
+/* ---- highlighted "Book a client project" CTA ---- */
+.book-btn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 9999px;
+  padding: 1px;
+  background: linear-gradient(100deg, #171717 0%, #c7c9ce 22%, #ffffff 36%, #92969e 52%, #171717 70%, #c7c9ce 100%);
+  background-size: 260% 100%;
+  animation: book-sheen 4.5s linear infinite;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.55);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s;
+}
+.book-btn > .book-in {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 9999px;
+  background: #080808;
+  color: #fff;
+  padding: 0.95rem 1.7rem;
+  font-family: var(--font-mono, 'Geist Mono', monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.book-btn.on-dark > .book-in { background: #fff; color: #080808; }
+.book-btn.sm > .book-in { padding: 0.7rem 1.1rem; font-size: 0.7rem; letter-spacing: 0.1em; }
+.book-btn:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.6); }
+.book-dot { position: relative; width: 8px; height: 8px; border-radius: 9999px; background: #4ade80; flex: none; }
+.book-dot::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: inherit; animation: book-ping 1.8s ease-out infinite; }
+@keyframes book-sheen { to { background-position: -260% 0; } }
+@keyframes book-ping { 0% { transform: scale(1); opacity: 0.7; } 100% { transform: scale(3); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .book-btn, .book-dot::after { animation: none; } }
