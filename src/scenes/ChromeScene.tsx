@@ -1,6 +1,6 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Environment, Float, Lightformer, MeshDistortMaterial } from '@react-three/drei'
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { useIsMobile, useReducedMotion } from '../hooks/useEnv'
 
@@ -18,6 +18,10 @@ const frag = /* glsl */ `
   uniform float uTime;
   uniform vec2 uCenter;
   uniform float uAspect;
+  uniform vec2 uPointer;     // pointer in uv space
+  uniform float uPointerAmt; // 0..1, rises while the pointer moves
+  uniform vec2 uClick;       // last click in uv space
+  uniform float uClickAge;   // seconds since the click (large = none)
 
   void main() {
     vec2 p = vUv - uCenter;
@@ -28,6 +32,20 @@ const frag = /* glsl */ `
     float w  = sin(d * 21.0 - uTime * 0.6);
     float w2 = sin(d * 47.0 - uTime * 1.0) * 0.22;
     float h  = (w + w2) * exp(-d * 0.42);
+
+    // ripples that follow the pointer
+    vec2 pp = vUv - uPointer;
+    pp.x *= uAspect; pp.y *= 1.55;
+    float dp = length(pp);
+    h += sin(dp * 40.0 - uTime * 2.6) * exp(-dp * 3.4) * uPointerAmt * 0.75;
+
+    // shockwave where you click
+    vec2 pc = vUv - uClick;
+    pc.x *= uAspect; pc.y *= 1.55;
+    float dc = length(pc);
+    float front = uClickAge * 0.9;
+    float env = exp(-pow((dc - front) * 7.0, 2.0)) * exp(-uClickAge * 1.3);
+    h += sin((dc - front) * 52.0) * env * 1.5;
 
     float lum = 0.62 + 0.30 * h;
 
@@ -58,11 +76,46 @@ function Scene({ reduced, mobile }: { reduced: boolean; mobile: boolean }) {
       uTime: { value: 0 },
       uCenter: { value: new THREE.Vector2(0.5, 0.62) },
       uAspect: { value: 1 },
+      uPointer: { value: new THREE.Vector2(0.5, 0.4) },
+      uPointerAmt: { value: 0 },
+      uClick: { value: new THREE.Vector2(0.5, 0.5) },
+      uClickAge: { value: 99 },
     }),
     [],
   )
   const px = useRef(0)
   const py = useRef(0)
+  const gl = useThree((t) => t.gl)
+  const ptr = useRef({ x: 0.5, y: 0.4, tx: 0.5, ty: 0.4, amt: 0 })
+  const clickAt = useRef(-99)
+
+  useEffect(() => {
+    if (reduced) return
+    const el = gl.domElement
+    const toUv = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect()
+      return { x: (e.clientX - r.left) / r.width, y: 1 - (e.clientY - r.top) / r.height, inside: e.clientY >= r.top && e.clientY <= r.bottom }
+    }
+    const move = (e: PointerEvent) => {
+      const u = toUv(e)
+      if (!u.inside) return
+      ptr.current.tx = u.x
+      ptr.current.ty = u.y
+      ptr.current.amt = Math.min(1, ptr.current.amt + 0.12)
+    }
+    const down = (e: PointerEvent) => {
+      const u = toUv(e)
+      if (!u.inside) return
+      uniforms.uClick.value.set(u.x, u.y)
+      clickAt.current = performance.now() / 1000
+    }
+    window.addEventListener('pointermove', move, { passive: true })
+    window.addEventListener('pointerdown', down, { passive: true })
+    return () => {
+      window.removeEventListener('pointermove', move)
+      window.removeEventListener('pointerdown', down)
+    }
+  }, [gl, reduced, uniforms])
 
   const radius = Math.min(mobile ? 0.6 : 0.6, viewport.width * 0.2)
   const baseY = viewport.height * (mobile ? 0.17 : 0.17)
@@ -74,6 +127,13 @@ function Scene({ reduced, mobile }: { reduced: boolean; mobile: boolean }) {
     py.current = THREE.MathUtils.damp(py.current, ty, 2.6, dt)
     const y = baseY + py.current
     if (sphere.current) sphere.current.position.set(px.current, y, 0)
+    const q = ptr.current
+    q.x = THREE.MathUtils.damp(q.x, q.tx, 6, dt)
+    q.y = THREE.MathUtils.damp(q.y, q.ty, 6, dt)
+    q.amt = Math.max(0, q.amt - dt * 0.9)
+    uniforms.uPointer.value.set(q.x, q.y)
+    uniforms.uPointerAmt.value = q.amt
+    uniforms.uClickAge.value = Math.min(99, performance.now() / 1000 - clickAt.current)
     uniforms.uTime.value = reduced ? 0 : s.clock.elapsedTime
     uniforms.uAspect.value = size.width / size.height
     uniforms.uCenter.value.set(0.5 + px.current / viewport.width, 0.5 + y / viewport.height)

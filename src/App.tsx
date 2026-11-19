@@ -9,6 +9,7 @@ import { About } from './sections/About'
 import { Projects } from './sections/Projects'
 import { Skills } from './sections/Skills'
 import { Contact } from './sections/Contact'
+import { TechStrip } from './components/TechStrip'
 import { FloatingBook } from './components/FloatingBook'
 
 const Admin = lazy(() => import('./admin/Admin'))
@@ -44,6 +45,7 @@ export default function App() {
       <main>
         <Hero ready={ready} />
         <About />
+        <TechStrip />
         <Projects />
         <Skills />
         <Contact />

@@ -8,6 +8,7 @@ import { SplitText } from '../components/SplitText'
 import { Reveal } from '../components/Reveal'
 import { ButtonLink } from '../components/ui'
 import { BookButton } from '../components/BookButton'
+import { RoleCycle } from '../components/RoleCycle'
 import { scrollToId, useLenis } from '../hooks/useSmoothScroll'
 import { useNearViewport, useReducedMotion, useWebGL } from '../hooks/useEnv'
 
@@ -115,7 +116,7 @@ export function Hero({ ready }: { ready: boolean }) {
             className="block font-mono text-[0.72rem] uppercase tracking-[0.34em] text-charcoal md:text-sm"
           />
           <Reveal play={ready} delay={1.3} className="eyebrow mt-3 !tracking-[0.2em]">
-            {profile.heroRoles.map((r) => r.replace('.', '')).join(' · ').toUpperCase()}
+            <RoleCycle roles={profile.heroRoles.map((r) => r.replace('.', ''))} />
           </Reveal>
         </div>
 

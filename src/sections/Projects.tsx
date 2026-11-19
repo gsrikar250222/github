@@ -41,6 +41,8 @@ function ProjectRow({ p, i }: { p: Project; i: number }) {
   const onMove = (e: React.PointerEvent) => {
     if (!fine || reduced || !frame.current) return
     const r = frame.current.getBoundingClientRect()
+    frame.current.style.setProperty('--sx', `${e.clientX - r.left}px`)
+    frame.current.style.setProperty('--sy', `${e.clientY - r.top}px`)
     mx.set((e.clientX - r.left) / r.width - 0.5)
     my.set((e.clientY - r.top) / r.height - 0.5)
   }
@@ -72,6 +74,11 @@ function ProjectRow({ p, i }: { p: Project; i: number }) {
               aria-hidden
               style={{ background: useTransform(glare, (g) => `linear-gradient(115deg, transparent ${Number.parseFloat(g) - 25}%, rgba(255,255,255,0.1) ${g}, transparent ${Number.parseFloat(g) + 25}%)`) }}
               className="pointer-events-none absolute inset-0"
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 [div:hover>&]:opacity-100"
+              style={{ background: 'radial-gradient(320px circle at var(--sx,50%) var(--sy,50%), rgba(255,255,255,0.22), transparent 65%)', mixBlendMode: 'soft-light' }}
             />
             <span className="absolute left-4 top-4 font-mono text-[0.65rem] tracking-[0.2em] text-silver">{String(i + 1).padStart(2, '0')}</span>
           </motion.div>
