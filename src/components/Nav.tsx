@@ -1,157 +1,100 @@
-import { BookButton } from './BookButton'
 import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { profile } from '../data/profile'
-import { social } from '../data/social'
+import { BookButton } from './BookButton'
 import { scrollToId, useLenis } from '../hooks/useSmoothScroll'
 import { cn } from '../lib/utils'
 
-const LINKS = [
-  { id: 'hero', n: '01', label: 'Home' },
-  { id: 'about', n: '02', label: 'About' },
-  { id: 'projects', n: '03', label: 'Projects' },
-  { id: 'skills', n: '04', label: 'Skills' },
-  { id: 'contact', n: '05', label: 'Contact' },
-] as const
+const links = [
+  { id: 'services', label: 'Services' },
+  { id: 'projects', label: 'Work' },
+  { id: 'about', label: 'About' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'contact', label: 'Contact' },
+]
 
-export function Nav({ ready }: { ready: boolean }) {
+export function Nav() {
   const lenis = useLenis()
-  const [active, setActive] = useState<string>('hero')
+  const [active, setActive] = useState('')
   const [open, setOpen] = useState(false)
-  const [dark, setDark] = useState(false)
 
   useEffect(() => {
+    const els = links.map((l) => document.getElementById(l.id)).filter(Boolean) as HTMLElement[]
     const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
+      (entries) => {
+        for (const e of entries) if (e.isIntersecting) setActive(e.target.id)
+      },
       { rootMargin: '-45% 0px -50% 0px' },
     )
-    LINKS.forEach((s) => {
-      const el = document.getElementById(s.id)
-      if (el) io.observe(el)
-    })
+    els.forEach((el) => io.observe(el))
     return () => io.disconnect()
   }, [])
 
-  // the bar turns dark while it floats over the black Projects section
-  useEffect(() => setDark(active === 'projects'), [active])
-
   useEffect(() => {
-    if (!open) return
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false)
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    document.documentElement.style.overflow = open ? 'hidden' : ''
   }, [open])
 
   const go = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault()
     setOpen(false)
-    setTimeout(() => scrollToId(lenis.current, id), open ? 250 : 0)
+    scrollToId(lenis.current, id)
   }
 
   return (
-    <>
-      <motion.header
-        initial={{ y: -50, opacity: 0 }}
-        animate={ready ? { y: 0, opacity: 1 } : {}}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-        className="fixed inset-x-0 top-0 z-[100] px-3 pt-3 md:px-6 md:pt-5"
-      >
-        <nav
-          aria-label="Primary"
-          className={cn(
-            'mx-auto flex h-14 max-w-[1500px] items-center justify-between rounded-xl border px-4 backdrop-blur-xl transition-colors duration-500 md:h-[68px] md:px-6',
-            dark ? 'border-white/10 bg-black/55 text-white' : 'border-white/70 bg-white/45 text-black shadow-[0_8px_30px_-18px_rgba(20,17,15,0.25)]',
-          )}
-        >
-          <a href="#hero" onClick={go('hero')} className="flex items-center gap-2.5" aria-label="SRIKAR. — back to top">
-            <span
-              aria-hidden
-              className="h-5 w-5 rounded-full"
-              style={{ background: 'radial-gradient(circle at 32% 28%, #fffdf8 0, #e3d9c6 35%, #7a6f5c 80%, #2a2520 100%)' }}
-            />
-            <span className="display text-lg tracking-[-0.04em]">{profile.brand}</span>
-          </a>
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-ink/95 text-white backdrop-blur-md">
+      <div className="wrap flex h-16 items-center justify-between">
+        <a href="#top" onClick={go('top')} className="display text-xl tracking-tight" aria-label={`${profile.name} — home`}>
+          {profile.brand}
+        </a>
 
-          <ul className="hidden items-center gap-1 md:flex">
-            {LINKS.map((s) => (
-              <li key={s.id}>
-                <a
-                  href={`#${s.id}`}
-                  onClick={go(s.id)}
-                  aria-current={active === s.id ? 'true' : undefined}
-                  className={cn(
-                    'block rounded-lg px-4 py-2.5 text-[0.9rem] font-medium transition-colors duration-300',
-                    active === s.id
-                      ? dark
-                        ? 'bg-white text-black'
-                        : 'bg-white text-black shadow-sm'
-                      : dark
-                        ? 'text-white/75 hover:text-white'
-                        : 'text-charcoal/80 hover:text-black',
-                  )}
-                >
-                  {s.label}
+        <nav aria-label="Primary" className="hidden items-center gap-8 md:flex">
+          {links.map((l) => (
+            <a
+              key={l.id}
+              href={`#${l.id}`}
+              onClick={go(l.id)}
+              aria-current={active === l.id ? 'true' : undefined}
+              className={cn(
+                'relative py-1 text-[0.95rem] text-white/70 transition-colors hover:text-white',
+                active === l.id && 'text-white after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:bg-signal',
+              )}
+            >
+              {l.label}
+            </a>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-3">
+          <span className="hidden sm:block">
+            <BookButton size="sm" />
+          </span>
+          <button
+            className="grid h-10 w-10 place-items-center rounded-full border border-white/25 md:hidden"
+            aria-expanded={open}
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            onClick={() => setOpen((o) => !o)}
+          >
+            {open ? <X size={18} /> : <Menu size={18} />}
+          </button>
+        </div>
+      </div>
+
+      {open && (
+        <div className="fixed inset-x-0 bottom-0 top-16 bg-ink px-[var(--pad)] pt-8 md:hidden">
+          <ul className="space-y-1">
+            {links.map((l) => (
+              <li key={l.id}>
+                <a href={`#${l.id}`} onClick={go(l.id)} className="display block border-b border-white/10 py-4 text-4xl">
+                  {l.label}
                 </a>
               </li>
             ))}
-            {social.resumeUrl && (
-              <li>
-                <a
-                  href={social.resumeUrl}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className={cn('block rounded-lg px-4 py-2.5 text-[0.9rem] font-medium', dark ? 'text-white/75 hover:text-white' : 'text-charcoal/80 hover:text-black')}
-                >
-                  Resume
-                </a>
-              </li>
-            )}
           </ul>
-
-          <div className="flex items-center gap-2">
-            <span className="hidden md:block"><BookButton small label="Book a client project" onDark={dark} /></span>
-            <button
-              className="-mr-2 flex h-11 w-11 items-center justify-center md:hidden"
-              aria-label={open ? 'Close menu' : 'Open menu'}
-              aria-expanded={open}
-              aria-controls="mobile-menu"
-              onClick={() => setOpen((o) => !o)}
-            >
-              {open ? <X size={22} /> : <Menu size={22} />}
-            </button>
+          <div className="mt-8">
+            <BookButton className="w-full" />
           </div>
-        </nav>
-      </motion.header>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            id="mobile-menu"
-            initial={{ clipPath: 'inset(0 0 100% 0)' }}
-            animate={{ clipPath: 'inset(0 0 0% 0)' }}
-            exit={{ clipPath: 'inset(0 0 100% 0)' }}
-            transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 z-[90] flex flex-col justify-center bg-black px-[var(--pad)] text-white md:hidden"
-          >
-            <ul className="space-y-3">
-              {LINKS.map((s, i) => (
-                <motion.li key={s.id} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0, transition: { delay: 0.25 + i * 0.07 } }}>
-                  <a href={`#${s.id}`} onClick={go(s.id)} className="display flex items-baseline gap-4 text-5xl">
-                    <span className="eyebrow !text-metal">{s.n}</span>
-                    {s.label}
-                  </a>
-                </motion.li>
-              ))}
-              <motion.li initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0, transition: { delay: 0.65 } }} className="pt-6">
-                <a href="#contact" onClick={go('contact')} className="inline-block rounded-lg bg-white px-6 py-4 text-sm font-medium text-black">
-                  Book a client project
-                </a>
-              </motion.li>
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+        </div>
+      )}
+    </header>
   )
 }

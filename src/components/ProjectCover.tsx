@@ -4,9 +4,9 @@ import type { Project } from '../data/projects'
  * Generated silver-line covers. They are abstract motifs only — replace by setting
  * `media.image` / `media.video` on a project in data/projects.ts.
  */
-const S = '#d9cfbd'
-const M = '#7a6f5c'
-const W = '#fffdf8'
+const S = '#9fb0ff'
+const M = '#5568e8'
+const W = '#ffffff'
 
 function Motif({ kind }: { kind: Project['motif'] }) {
   switch (kind) {
@@ -121,7 +121,7 @@ function Motif({ kind }: { kind: Project['motif'] }) {
   }
 }
 
-export function ProjectCover({ project, index }: { project: Project; index: number }) {
+export function ProjectCover({ project }: { project: Project; index?: number }) {
   const { media } = project
   if (media?.video) {
     return (
@@ -144,20 +144,17 @@ export function ProjectCover({ project, index }: { project: Project; index: numb
     <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" className="h-full w-full" role="img" aria-label={`${project.name} generated cover artwork`}>
       <defs>
         <radialGradient id={`bg-${project.id}`} cx=".3" cy=".2" r="1">
-          <stop offset="0" stopColor="#2b2620" />
-          <stop offset="1" stopColor="#14110f" />
+          <stop offset="0" stopColor="#18205e" />
+          <stop offset="1" stopColor="#0b0f2a" />
         </radialGradient>
       </defs>
       <rect width="400" height="300" fill={`url(#bg-${project.id})`} />
-      <g stroke="#fffdf8" strokeOpacity=".05">
+      <g stroke="#ffffff" strokeOpacity=".05">
         {Array.from({ length: 9 }, (_, i) => (
           <line key={i} x1={i * 50} x2={i * 50} y1="0" y2="300" />
         ))}
       </g>
       <Motif kind={project.motif} />
-      <text x="20" y="284" fill={M} fontFamily="ui-monospace, monospace" fontSize="10" letterSpacing="2">
-        {String(index + 1).padStart(2, '0')} / {project.category.split('/')[0].trim().toUpperCase()}
-      </text>
     </svg>
   )
 }

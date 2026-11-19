@@ -46,3 +46,7 @@ Open `/#/admin`. On first visit you choose a passcode (stored hashed in your bro
 **Important:** edits are saved in *your browser's localStorage* — there is no server. Use **Export backup** after editing, and **Import backup** to restore them or load them in another browser. The passcode is a local lock, not server security. A real shared CMS (Express + MongoDB, from the expansion spec) is the next step.
 
 Highlighted CTA: `src/components/BookButton.tsx` (nav, hero, end of Projects, floating pill).
+
+
+## Redesign notes
+Cobalt / ink / paper palette with a single yellow call to action. Fonts: Bricolage Grotesque (headings), Instrument Sans (text), IBM Plex Mono (diagram labels). Services live in `src/data/services.ts`. Three.js, GSAP and Framer Motion were removed: motion is CSS plus Lenis smooth scrolling.

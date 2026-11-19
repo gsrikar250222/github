@@ -1,37 +1,23 @@
-import { ArrowUpRight } from 'lucide-react'
-import { Magnetic } from './Magnetic'
 import { scrollToId, useLenis } from '../hooks/useSmoothScroll'
 import { cn } from '../lib/utils'
 
-/** The highlighted primary call-to-action. Scrolls to the contact form. */
-export function BookButton({
-  label = 'Book a client project',
-  onDark,
-  small,
-  className,
-}: {
-  label?: string
-  onDark?: boolean
-  small?: boolean
-  className?: string
-}) {
+/** The primary call to action — the one yellow thing on the page. */
+export function BookButton({ label = 'Book a client project', className, size = 'md' }: { label?: string; className?: string; size?: 'sm' | 'md' }) {
   const lenis = useLenis()
   return (
-    <Magnetic strength={0.25}>
-      <a
-        href="#contact"
-        onClick={(e) => {
-          e.preventDefault()
-          scrollToId(lenis.current, 'contact')
-        }}
-        className={cn('book-btn', onDark && 'on-dark', small && 'sm', className)}
-      >
-        <span className="book-in">
-          <span className="book-dot" aria-hidden />
-          {label}
-          <ArrowUpRight size={15} />
-        </span>
-      </a>
-    </Magnetic>
+    <a
+      href="#contact"
+      onClick={(e) => {
+        e.preventDefault()
+        scrollToId(lenis.current, 'contact')
+      }}
+      className={cn(
+        'inline-flex items-center justify-center rounded-full bg-signal font-semibold text-ink transition-[transform,background-color] duration-300 hover:-translate-y-0.5 hover:bg-white active:translate-y-0',
+        size === 'sm' ? 'px-5 py-2.5 text-[0.9rem]' : 'px-7 py-4 text-base',
+        className,
+      )}
+    >
+      {label}
+    </a>
   )
 }

@@ -65,7 +65,7 @@ function Gate({ onOk }: { onOk: () => void }) {
   }
 
   return (
-    <div className="grid min-h-screen place-items-center bg-[#f2ede3] p-6">
+    <div className="grid min-h-screen place-items-center bg-[#f5f6fa] p-6">
       <form onSubmit={submit} className="w-full max-w-sm rounded-3xl border border-line bg-white p-8 shadow-[0_30px_80px_-40px_rgba(20,17,15,.35)]">
         <span className="mb-6 grid h-11 w-11 place-items-center rounded-full bg-black text-white">
           <Lock size={18} />
@@ -207,7 +207,7 @@ function Panel() {
   useEffect(() => { window.scrollTo(0, 0) }, [editing])
 
   return (
-    <div className="min-h-screen bg-[#f2ede3] text-black">
+    <div className="min-h-screen bg-[#f5f6fa] text-black">
       <header className="sticky top-0 z-20 border-b border-line bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-5 py-4">
           <p className="display text-xl">SRIKAR. <span className="font-mono text-[0.66rem] uppercase tracking-[0.14em] text-metal">/ admin</span></p>
@@ -245,10 +245,10 @@ function Panel() {
                     </p>
                   </div>
                   <div className="flex items-center gap-1">
-                    <button aria-label="Move up" disabled={i === 0} onClick={() => move(i, -1)} className="rounded-full p-2 hover:bg-[#f2ede3] disabled:opacity-30"><ArrowUp size={16} /></button>
-                    <button aria-label="Move down" disabled={i === projects.length - 1} onClick={() => move(i, 1)} className="rounded-full p-2 hover:bg-[#f2ede3] disabled:opacity-30"><ArrowDown size={16} /></button>
+                    <button aria-label="Move up" disabled={i === 0} onClick={() => move(i, -1)} className="rounded-full p-2 hover:bg-[#f5f6fa] disabled:opacity-30"><ArrowUp size={16} /></button>
+                    <button aria-label="Move down" disabled={i === projects.length - 1} onClick={() => move(i, 1)} className="rounded-full p-2 hover:bg-[#f5f6fa] disabled:opacity-30"><ArrowDown size={16} /></button>
                     <button onClick={() => setEditing(p)} className={btn}><Pencil size={13} /> Edit</button>
-                    <button aria-label={`Delete ${p.name}`} onClick={() => del(p)} className="rounded-full p-2 text-metal hover:bg-[#f2ede3] hover:text-black"><Trash2 size={16} /></button>
+                    <button aria-label={`Delete ${p.name}`} onClick={() => del(p)} className="rounded-full p-2 text-metal hover:bg-[#f5f6fa] hover:text-black"><Trash2 size={16} /></button>
                   </div>
                 </li>
               ))}
