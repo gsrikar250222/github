@@ -13,6 +13,7 @@ const types = {
 }
 
 createServer(async (req, res) => {
+  if (req.url === '/healthz') return void res.writeHead(200, { 'Content-Type': 'text/plain', 'Cache-Control': 'no-store' }).end('ok')
   try {
     const path = normalize(decodeURIComponent(new URL(req.url, 'http://x').pathname)).replace(/^(\.\.[/\\])+/, '')
     let file = join(root, path)

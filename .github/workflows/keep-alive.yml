@@ -1,0 +1,15 @@
+name: Keep Render awake
+# Pings the site every ~10 minutes so Render's free instance doesn't spin down.
+# GitHub may delay scheduled runs by several minutes, so this is best-effort.
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+permissions: {}
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Ping /healthz
+        run: curl -fsS --max-time 60 --retry 3 --retry-delay 10 https://freelancing-2wcs.onrender.com/healthz
